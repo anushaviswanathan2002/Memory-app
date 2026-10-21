@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 const EMOJIS = ['🍎', '🍌', '🍇', '🍓', '🍒', '🥑', '🍉', '🥕'];
+const THEME_KEY = 'memory-theme';
 
 function shuffle(array) {
   const a = [...array];
@@ -21,10 +22,15 @@ function buildDeck() {
   }));
 }
 
+function loadTheme() {
+  return localStorage.getItem(THEME_KEY) === 'dark';
+}
+
 export default function App() {
   const [deck, setDeck] = useState(buildDeck);
   const [picked, setPicked] = useState([]);
   const [moves, setMoves] = useState(0);
+  const [dark, setDark] = useState(loadTheme);
 
   useEffect(() => {
     if (picked.length !== 2) return;
@@ -49,6 +55,11 @@ export default function App() {
     }
   }, [picked, deck]);
 
+  useEffect(() => {
+    document.body.classList.toggle('dark', dark);
+    localStorage.setItem(THEME_KEY, dark ? 'dark' : 'light');
+  }, [dark]);
+
   function flip(i) {
     if (picked.length === 2) return;
     if (deck[i].flipped || deck[i].matched) return;
@@ -68,7 +79,16 @@ export default function App() {
 
   return (
     <div>
-      <h1>🧠 Memory App Not</h1>
+      <div className="header-row">
+        <h1>🧠 Memory App</h1>
+        <button
+          className="theme-toggle"
+          onClick={() => setDark((d) => !d)}
+          aria-label="Toggle dark mode"
+        >
+          {dark ? '☀️' : '🌙'}
+        </button>
+      </div>
       <div className="info">
         <div>
           Moves: <b>{moves}</b>
