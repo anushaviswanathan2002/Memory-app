@@ -19,6 +19,16 @@ h1 { margin: 0 0 0.5rem; }
   color: #374151;
 }
 .info b { color: #4f46e5; }
+.info .best {
+  width: 100%;
+  text-align: center;
+  margin-top: 0.4rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed #e5e7eb;
+  color: #10b981;
+  font-size: 0.9rem;
+}
+.info .best b { color: #10b981; }
 .board {
   display: grid;
   grid-template-columns: repeat(4, 80px);
